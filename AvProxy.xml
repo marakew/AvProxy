@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<AvProxy Ver="1">
+<Input Url="http://login:@fromsite2.com:8080/url">
+	<Output Name="12" Desc="desc12" AES128=1/>
+</Input>
+<Input Url="udp://231.1.1.1:1234?KeepAlive=61&amp;Source=192.168.60.129&amp;IFace=192.168.60.129">
+	<Output Name="udp1" Desc="udp n1" Pnr=1/>
+	<Output Name="udp2" Desc="udp second" Pnr=2/>
+	<Output Name="udpaes" AES128=1 Pnr=20>
+	        <TsPush Url="rtp://192.168.6.131:8888?IFace=192.168.6.129"/>
+	        <TsPush Url="udp://192.168.6.132:8888"/>
+	</Output>
+</Input>
+<Input Url="http://fromsite3.any.com/url/any">
+	<Output ApplePreroll=10 AppleDuration=10000 AppleIDRLimit=8000 Name="http3"/>
+</Input>
+<Input Url="https://user:pass@fromsite4.com">
+	<Output Name="http4">
+	        <TsPush Url="rtp://192.168.65.132:8888"/>
+	        <TsPush Url="udp://192.168.65.134:8888"/>
+	        <TsPush Url="rtp://192.168.65.135:8888"/>
+	</Output>
+</Input>
+<Input Bandwidth=3000 Url="m3u8://fromsite5.com/url/test.m3u8">
+	<Output Name="somename"/>
+</Input>
+</AvProxy>

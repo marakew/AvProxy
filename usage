@@ -1,0 +1,89 @@
+Available options are:
+-Trace			verbose debug
+-Daemon			became as daemon
+-Log somedir		name of log directory in Log/somedir
+-VodDir somedir		default /cache/
+-HttpPort number	default 80
+-ConfigUrl http[s]://[[user]:[pass]@]host[:port]/[path/]file.xml
+
+-ssl_port number		default 0, http is disabled if ssl is enabled
+-ssl_cert file.crt		certificate
+-ssl_cert_key file.key		certificate key
+-ssl_cert_key_pass file.pw	the file with a password if passphrase is required
+
+For config is use xml
+as simple tag
+<line option="val"/>
+or full tag
+<line option="val">
+</line>
+
+It can usage local or remote config
+Local config use from same dir and have name AvProxy.xml
+Remote config setup from startup options -ConfigUrl
+
+Local config is not update under windows, only restart AvProxy reload it
+for update local config under linux use `kill -SIGUSR1 pid`
+Remote config is update some time
+
+All input and output will reconfigure when remote config changed
+For update config just change (increase) ver number in xml config Ver="1"
+
+example config AvProxy.xml
+
+The Url for inputs are unique and must present
+The Name for outputs are unique and must present
+They will ignore a double Input Url in config 
+
+And the Name of Output use for access to stream through url http[s]://
+
+http streaming outputs available through 
+http[s]://hostname/live/Name
+
+http live streaming (hls) outputs available by extension .m3u8
+http[s]://hostname/live/Name/index.m3u8
+
+Pnr uses to take stream program
+Will take first program from a stream if no Pnr define
+
+There are input schemes:
+http -  http:// and https:// for ssl
+hls - m3u8:// and m3u8s:// for ssl
+rtp - rtp://
+udp - udp://
+
+"Desc" uses for description info in playlist.m3u8, will use as Name if no define 
+"Bandwidth" uses for HLS variant to choose default bandwidth, value in kbps
+AES128=1 enable AES-128 for HLS output
+
+ApplePreroll=N at output section - preroll N segments for output hls
+by default 3 segments present at output playlist
+as example in AvProxy.xml
+ApplePreroll=10 keep 10 segments
+
+AppleDuration=N at output section - split HLS segments by duration
+value in milliseconds, by default 10000 ms, less than 2000 ms will ignore
+
+AppleIDRLimit=N at output section - split HLS segments by IDR frame
+value in milliseconds, by default 8000 ms, less than 1000 ms will ignore
+
+Average IDR and IDR history of last frames from ingress stream, availible from stats
+You able to learn how to set own AppleDuration and AppleIDRLimit for better split HLS segments
+
+All of the outputs are available through http[s]://hostname/live/playlist.m3u8 as playlist
+
+For configure simple VOD
+#mkdir some_root_dir
+#copy /mnt/file_in_some_root_dir.mp4 some_root_dir
+#AvProxy -VodDir some_root_dir
+
+All of a files in some_root_dir available through http[s]://hostname/vod/playlist.m3u8 as playlist
+or direct access http[s]://hostname/vod/file_in_some_root_dir.mp4
+
+This is basic file access, no zero copy or else like remux, will improve in future
+
+To access the users page follow http[s]://hostname/users
+
+To access inputs/outputs live stats use http[s]://hostname/live/stats
+
+All inputs are active after start
