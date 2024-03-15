@@ -28,7 +28,6 @@
 - transcoding with ffmpeg/?
 - coroutine per connections on thread
 - P2P live/vod streaming middleware
-- H265
 - TCP options nondelay, nopush, congestion
 - RTMP for input/output
 - Akamai / AWS authorization for http input
@@ -53,3 +52,4 @@
 - transmux mp4 into hls, vod
 - dvr
 - cmaf(fMP4) http progressive
+- console stream analyzer -Test N or -Test "Name" or -TestUrl scheme
